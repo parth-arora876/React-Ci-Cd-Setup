@@ -1,44 +1,44 @@
-name: "Sample react ci pipeline"
+name: Sample react ci pipeline
 
 on:
-    push:
-        branches:
-            - main
-            - master
+  push:
+    branches:
+      - main
+      - master
 
 jobs:
-    build-and-test:
-        runs-on: ubuntu-latest
+  build-and-test:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: "Set up nodejs"
-              uses: actions/setup-node@v4
-              with:
-                node-version : '21'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-            - name: "check node version"
-              run: node --version
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-            - name: "clone the repository"
-              uses: actions/checkout@v2
+      - name: Check Node version
+        run: node --version
 
-            - name: "Install dependencies"
-              run : npm install
-            
-            -  name: "List directories"
-               run: ls
+      - name: Install dependencies
+        run: npm ci
 
-            - name: "Run lint"
-              run: npm run lint
+      - name: List directories
+        run: ls
 
-            - name: "Run test"
-              run: npm run test
+      - name: Run lint
+        run: npm run lint
 
-            - name: "Run build"
-              run: npm run build
+      - name: Run test
+        run: npm run test
 
-            - name: "Upload product ready build files"
-              uses: actions/upload-artifact@v6
-              with:
-                name: build
-                path: dist
+      - name: Run build
+        run: npm run build
+
+      - name: Upload build files
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: dist
